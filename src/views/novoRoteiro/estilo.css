@@ -1,0 +1,96 @@
+#novoRoteiro{
+    width: 100%;
+    min-height: 93.8vh;
+}
+
+#novoRoteiro label{
+    font-size: large;
+    color: #444;
+    font-weight: bold;
+}
+
+#novoRoteiro .main-title{
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+#novoRoteiro .input{
+    width: 100%;
+    margin-bottom: 5%;
+    height: 2.5em;
+    color: #444;
+    border-radius: 20px;
+    padding-left: 1%;
+}
+
+#novoRoteiro button{
+    width: 50%;
+    min-width: 100px;
+    max-width: 150px;
+    height: 2.5em;
+}
+
+#novoRoteiro .cancelBtn,
+#novoRoteiro .salvarBtn{
+    width: 25%;
+}
+
+#novoRoteiro .main-btn{
+    padding: 0;
+    border-radius: 20px;
+
+}
+
+#novoRoteiro .main-btn.adicionarPacote{
+    min-width: 200px;
+
+}
+
+#novoRoteiro .main-btn:hover{
+    color: #852E7C;
+    font-weight: bold;
+}
+
+#novoRoteiro a{
+    width: 100%;
+    margin-left: 10%;
+}
+
+#novoRoteiro .salvarBtn{
+    margin-right: 10%;
+}
+
+.select label{
+    width: 100%;
+}
+
+#novoRoteiro select{
+    width: 100%;
+    margin-bottom: 2%;
+    height: 2.5em;
+    color: #444;
+    border-radius: 20px;
+    padding-left: 1%;
+}
+
+#novoRoteiro .divSelect{
+    margin-bottom: 5%;
+}
+
+#novoRoteiro .main-title.titlePacotes{
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.main-title.titlePacotes::after{
+    border-top: 0;
+}
+
+#novoRoteiro .divBtns{
+    border-top: #444 2px solid;
+    padding-top: 5%;
+}
+
+#novoRoteiro .destinoBtn{
+    min-width: 150px;
+}

@@ -1,0 +1,16 @@
+#radio label{
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+#radio p{
+    font-weight: bold;
+}
+
+#radio{
+    margin-bottom: 40px;
+}
+
+.row{
+    justify-content: baseline;
+}

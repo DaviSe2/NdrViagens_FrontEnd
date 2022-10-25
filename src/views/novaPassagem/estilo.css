@@ -1,0 +1,79 @@
+#novaPassagem{
+    width: 100%;
+    min-height: 93.8vh;
+}
+
+#novaPassagem label{
+    font-size: large;
+    color: #444;
+    font-weight: bold;
+}
+
+.main-title.title-novaPassagem{
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+#novaPassagem .input{
+    width: 100%;
+    margin-bottom: 5%;
+    height: 2.5em;
+    color: #444;
+    border-radius: 20px;
+    padding-left: 1%;
+}
+
+#novaPassagem select,
+#novaPassagem .select{
+    width: 75%;
+    margin-bottom: 5%;
+    height: 2.5em;
+    color: #444;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 1%;
+}
+
+#novaPassagem  #descricaoPacote{
+    height: 5em;
+    width: 100%;
+    resize: none;
+    border-radius: 20px;
+    padding: 1% 0 0 1%;
+}
+
+#novaPassagem .btnNovaPassagem{
+    width: 25%;
+    margin-bottom: 5%;
+    height: 2.5em;
+    color: #FFF;
+    font-size: 100%;
+}
+
+#novaPassagem .radio{
+    margin: 0;
+    margin-left: 10%;
+    display: flex;
+    width: 33%;
+}
+
+#novaPassagem .cancelBtn,
+#novaPassagem .salvarBtn{
+    width: 200px;
+    min-width: 100px;
+}
+
+.main-btn.btnNovaPassagem{
+    padding: 0;
+    border-radius: 20px;
+
+}
+
+#novaPassagem .main-btn.btnNovaPassagem:hover{
+    color: #852E7C;
+    font-weight: bold;
+}
+
+#novaPassagem .destino-btn{
+    border-radius: 0 20px 20px 0;
+}

@@ -1,0 +1,16 @@
+.linkButton{
+    display: flex;
+    justify-content: center;
+    margin-top: -50px;
+    margin-bottom: 30px;
+}
+
+.linkButton .main-btn{
+    height: 50px;
+    text-align: center;
+}
+
+.linkButton .main-btn:hover{
+    color: #852E7C;
+    font-weight: bold;
+}
