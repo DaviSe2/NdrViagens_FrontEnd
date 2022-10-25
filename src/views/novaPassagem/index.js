@@ -11,11 +11,7 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
     const { id } = useParams()
     const [showNovoDestino, setShowNovoDestino] = useState(false)
     const [prepararNovoPacote, setPrepararNovoPacote] = useState({})
-    const [editarPacote, setEditarPacote] = useState({})
     const [listaDestinos, setListaDestinos] = useState([])
-    const [prepararDestino, setPrepararDestino] = useState({})
-    const [idDestino, setIdDestino] = useState("semId")
-    const [novoDestino, setNovoDestino] = useState('')
 
     const getEditarPacote = useCallback(() => {
         if (id) {
@@ -31,7 +27,7 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
             fetch(`http://localhost:8080/pacotes/${id}`, requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
-                    setEditarPacote(data)
+                    setPrepararNovoPacote(data)
                     document.getElementById("nomePacote").value = data.nome
                     document.getElementById("destinoPacote").value = data.destino.id
                     document.getElementById("valorPacote").value = data.preco
@@ -81,81 +77,44 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
         }
     }, [checkToken, getEditarPacote, logado])
 
-    const limparDestino = useCallback(() => {
-        setShowNovoDestino(!showNovoDestino)
-        setPrepararNovoPacote({ ...prepararNovoPacote, 'destino': '' })
-    }, [prepararNovoPacote, showNovoDestino])
+    useEffect(() => { console.log(prepararNovoPacote) }, [prepararNovoPacote])
 
-    const handleChange = useCallback((e) => {
+    function handleChange(e) {
         setPrepararNovoPacote({ ...prepararNovoPacote, [e.target.name]: e.target.value })
-    }, [prepararNovoPacote])
+    }
 
     function handleChangeDestino(e) {
-        if (e.target.value !== "semId") {
-            setIdDestino(e.target.value)
-        }
+        getDestino(e.target.value)
     }
 
     function handleChangeNovoDestino(e) {
-        setNovoDestino(e.target.value)
+        setPrepararNovoPacote({ ...prepararNovoPacote, "destino": { "cidade": e.target.value } })
     }
 
-    useEffect(() => {
-        if (idDestino !== "semId") {
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", `Bearer ${token.access}`);
+    function getDestino(idDestino) {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token.access}`);
 
-            var requestOptions = {
-                method: 'GET',
-                headers: myHeaders,
-                redirect: 'follow'
-            };
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
 
-            fetch(`http://localhost:8080/destino/${idDestino}`, requestOptions)
-                .then(response => response.json())
-                .then((data) => {
-                    setPrepararDestino(data)
-                })
-                .catch(error => console.log('error', error));
-        }
-    }, [idDestino])
+        fetch(`http://localhost:8080/destino/${idDestino}`, requestOptions)
+            .then(response => response.json())
+            .then((data) => {
+                setPrepararNovoPacote({ ...prepararNovoPacote, "destino": data })
+            })
+            .catch(error => console.log('error', error));
+    }
 
     function submit(e) {
         e.preventDefault()
     }
 
-    function salvarDestinoPacote(pacote) {
-        let salvarDestino = { "cidade": novoDestino }
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token.access}`);
-        myHeaders.append("Content-Type", "application/json");
-
-        var raw = JSON.stringify(salvarDestino);
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:8080/destino/", requestOptions)
-            .then(response => response.json())
-            .then((data) => {
-                pacote.destino.id = data.id
-                pacote.destino.cidade = data.cidade
-                if (id) {
-                    patchPacote(pacote)
-                } else {
-                    salvarPacote(pacote)
-
-                }
-            })
-            .catch(error => console.log('error', error));
-    }
-
-    function salvarPacote(pacote) {
-        console.log(pacote)
+    function salvarPacote() {
+        console.log(prepararNovoPacote)
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token.access}`);
         myHeaders.append("Content-Type", "application/json");
@@ -163,7 +122,7 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            body: JSON.stringify(pacote),
+            body: JSON.stringify(prepararNovoPacote),
             redirect: 'follow'
         };
 
@@ -176,13 +135,12 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
 
     }
 
-    function patchPacote(pacote) {
-        console.log(pacote)
+    function patchPacote() {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token.access}`);
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify(pacote);
+        var raw = JSON.stringify(prepararNovoPacote);
 
         var requestOptions = {
             method: 'PATCH',
@@ -199,64 +157,16 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
             .catch(error => console.log('error', error));
     }
 
-    function trocarPacote(pacote){
-        if(pacote.hospedagem === undefined){
-            pacote.hospedagem = editarPacote.hospedagem
-        }
-        if(pacote.alimentacao === undefined){
-            pacote.alimentacao = editarPacote.alimentacao
-        }
-        if(pacote.ingressos === undefined){
-            pacote.ingressos = editarPacote.ingressos
-        }
-        if(pacote.nome === undefined){
-            pacote.nome = editarPacote.nome
-        }
-        if(pacote.preco === undefined){
-            pacote.preco = editarPacote.preco
-        }
-        if(pacote.destino.id === undefined){
-            pacote.destino.id = editarPacote.destino.id
-        }
-        if(pacote.destino.cidade === undefined){
-            pacote.destino.cidade = editarPacote.destino.cidade
-        }
-        if(pacote.descricao === undefined){
-            pacote.descricao = editarPacote.descricao
-        }
-    }
-
     function salvar() {
         checkToken()
         if (logado) {
-            let pacote = {
-                "id": id,
-                "hospedagem": prepararNovoPacote.hospedagem,
-                "alimentacao": prepararNovoPacote.alimentacao,
-                "ingressos": prepararNovoPacote.ingressos,
-                "nome": prepararNovoPacote.nome,
-                "preco": prepararNovoPacote.valor,
-                "destino": {
-                    "id": prepararDestino.id,
-                    "cidade": prepararDestino.cidade
-                },
-                "descricao": prepararNovoPacote.descricao
-            }
-
-            trocarPacote(pacote)
-
             if (id) {
-                if (showNovoDestino) {
-                    salvarDestinoPacote(pacote)
-                } else {
-                    patchPacote(pacote)
-                }
+
+                patchPacote()
+
             } else {
-                if (showNovoDestino) {
-                    salvarDestinoPacote(pacote)
-                } else {
-                    salvarPacote(pacote)
-                }
+
+                salvarPacote()
             }
         }
     }
@@ -286,12 +196,12 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
                                                 <option value={option.id} key={option.id}>{option.cidade}</option>
                                             ))}
                                         </select>
-                                        <button className='main-btn btnNovaPassagem destino-btn' onClick={limparDestino}>Novo</button>
+                                        <button className='main-btn btnNovaPassagem destino-btn' onClick={() => setShowNovoDestino(!showNovoDestino)}>Novo</button>
                                     </>
                                 ) : (
                                     <>
                                         <input className='select' type={"text"} placeholder={"Digite o novo destino"} name={"destino"} id={"novoDestino"} onChange={handleChangeNovoDestino} />
-                                        <button className='main-btn btnNovaPassagem destino-btn' onClick={limparDestino}>Cancelar</button>
+                                        <button className='main-btn btnNovaPassagem destino-btn' onClick={() => setShowNovoDestino(!showNovoDestino)}>Cancelar</button>
                                     </>
                                 )}
                             </div>
@@ -301,8 +211,8 @@ function NovaPassagem({ checkToken, logado, setLogado }) {
                                 <RadioBtn text={"Ingressos"} name={"ingressos"} handleOnChange={handleChange} id={"ingressosPacote"} />
                             </div>
                             <div className='col-md-12'>
-                                <label htmlFor='valor'>Preço:</label>
-                                <input className='input' type={"number"} placeholder={"Valor do pacote"} name={"valor"} id={"valorPacote"} onChange={handleChange} />
+                                <label htmlFor='preco'>Preço:</label>
+                                <input className='input' type={"number"} placeholder={"Valor do pacote"} name={"preco"} id={"valorPacote"} onChange={handleChange} />
                             </div>
                             <div className='col-md-12'>
                                 <label htmlFor='descricao'>Descrição:</label>
