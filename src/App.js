@@ -61,22 +61,22 @@ function App() {
           />
           <Route exact path="/GerenciarRoteiros" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <GerenciarRoteiros />
+              <GerenciarRoteiros checkToken={checkToken} logado={logado} setLogado={setLogado}/>
             </Suspense>}
           />
           <Route exact path="/NovaPassagem" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado} />
+              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado}/>
             </Suspense>}
           />
           <Route exact path="/NovaPassagem/:id" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado} />
+              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado}/>
             </Suspense>}
           />
           <Route exact path="/NovoRoteiro" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovoRoteiro />
+              <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado}/>
             </Suspense>}
           />
         </Routes>

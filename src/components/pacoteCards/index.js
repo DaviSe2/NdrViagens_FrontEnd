@@ -2,12 +2,12 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { BsCheckLg, BsXLg } from 'react-icons/bs'
 import { HashLink } from "react-router-hash-link"
-import token from "../../components/token/index"
+import Token from "../token/index"
 import Message from "../message"
 
 import './estilo.css'
 
-function Card({ checkToken, logado, setLogado }) {
+function PacoteCard({ checkToken, logado, setLogado }) {
 
     const [pacotes, setPacotes] = useState([])
     const [message, setMessage] = useState('')
@@ -15,7 +15,7 @@ function Card({ checkToken, logado, setLogado }) {
 
     useEffect(() => {
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token.access}`);
+        myHeaders.append("Authorization", `Bearer ${Token.access}`);
 
         var requestOptions = {
             method: 'GET',
@@ -36,7 +36,7 @@ function Card({ checkToken, logado, setLogado }) {
         if (logado) {
             setMessage("")
             var myHeaders = new Headers();
-            myHeaders.append("Authorization", `Bearer ${token.access}`);
+            myHeaders.append("Authorization", `Bearer ${Token.access}`);
 
             var requestOptions = {
                 method: 'DELETE',
@@ -87,4 +87,4 @@ function Card({ checkToken, logado, setLogado }) {
     )
 }
 
-export default Card
+export default PacoteCard

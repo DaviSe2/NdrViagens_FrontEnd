@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import Login from '../../components/login'
-import Card from '../../components/cards'
+import PacoteCard from '../../components/pacoteCards'
 import LinkButton from '../../components/LinkButton'
 import Message from '../../components/message'
 import './estilo.css'
@@ -9,7 +9,7 @@ import './estilo.css'
 export default function GerenciarPassagens({checkToken, logado, setLogado}) {
 
     useEffect(() => {
-        checkToken()
+        checkToken() 
     })
 
     const location = useLocation()
@@ -29,7 +29,7 @@ export default function GerenciarPassagens({checkToken, logado, setLogado}) {
                         <LinkButton text={`Nova Passagem`} to={"/NovaPassagem"} />
                     </div>
                     {message && <Message type={"success"} msg={message} />}
-                    {logado && <Card checkToken={checkToken} logado={logado} setLogado={setLogado} />}
+                    {logado && <PacoteCard checkToken={checkToken} logado={logado} setLogado={setLogado} />}
                 </div>
             </div>
         </div>
