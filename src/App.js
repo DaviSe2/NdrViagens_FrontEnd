@@ -79,6 +79,11 @@ function App() {
               <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado}/>
             </Suspense>}
           />
+          <Route exact path="/NovoRoteiro/:id" element=
+            {<Suspense fallback={<p>"Carregando..."</p>}>
+              <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+            </Suspense>}
+          />
         </Routes>
       </Router>
       <footer>

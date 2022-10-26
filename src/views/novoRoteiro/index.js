@@ -1,15 +1,15 @@
-import { useEffect } from "react"
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useState,useEffect, useCallback } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { BsFillTrashFill } from 'react-icons/bs'
 
 import Token from "../../components/token"
 import Login from '../../components/login'
 
 import './estilo.css'
-
+ 
 function NovoRoteiro({ checkToken, logado, setLogado }) {
 
+    const { id } = useParams()
     const navigate = useNavigate()
     const [showAddPacote, setShowAddPacote] = useState(false)
     const [showSelectPacote, setShowSelectPacote] = useState(false)
@@ -18,6 +18,32 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
     const [listaPacotes, setListaPacotes] = useState([])
     const [precoTotal, setPrecoTotal] = useState(0)
     const [precoPromoTotal, setPrecoPromoTotal] = useState(0)
+
+    const getEditarRoteiro = useCallback(() => {
+        if (id) {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", `Bearer ${Token.access}`);
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            fetch(`http://localhost:8080/roteiro/${id}`, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    setRoteiro(data.nomeRoteiro)
+                    setPrecoTotal(data.precoTotal)
+                    setPrecoPromoTotal(data.precoPromoTotal)
+                    setPacotes(data.pacotes_viagens)
+                    document.getElementById("nomeRoteiro").value = data.nomeRoteiro
+                })
+                .catch(error => console.log('error', error));
+
+        }
+
+    }, [id])
 
     useEffect(() => {
         checkToken()
@@ -35,10 +61,11 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
                 .then(response => response.json())
                 .then(data => {
                     setListaPacotes(data)
+                    getEditarRoteiro()
                 })
                 .catch(error => console.log('error', error));
         }
-    })
+    },[checkToken, getEditarRoteiro, logado])
 
     function prepararPacote(e) {
         checkToken()
@@ -59,7 +86,7 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
                         setPacotes(oldArray => [...oldArray, data]);
                         setPrecoTotal(precoTotal + data.preco)
                         setPrecoPromoTotal(precoPromoTotal + data.precoPromo)
-                        console.log(roteiro)
+                        e.target.value = "semId"
                     })
                     .catch(error => console.log('error', error));
             }
@@ -127,7 +154,7 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
                             <form onSubmit={submit}>
                                 <div className='col-md-12'>
                                     <label htmlFor='nome'>Nome:</label>
-                                    <input className='input' type={"text"} placeholder={"Nome do roteiro"} name={"nomeRoteiro"} onChange={handleChange} />
+                                    <input className='input' type={"text"} placeholder={"Nome do roteiro"} name={"nomeRoteiro"} onChange={handleChange} id={"nomeRoteiro"}/>
                                 </div>
                                 <h3 className="main-title titlePacotes">Pacotes de Viagens</h3>
                                 {pacotes.length > 0 && (
