@@ -11,6 +11,7 @@ function Card({ checkToken, logado, setLogado }) {
 
     const [pacotes, setPacotes] = useState([])
     const [message, setMessage] = useState('')
+    const [messageType, setMessageType] = useState('')
 
     useEffect(() => {
         var myHeaders = new Headers();
@@ -44,10 +45,15 @@ function Card({ checkToken, logado, setLogado }) {
             };
 
             fetch(`http://localhost:8080/pacotes/${e.target.id}`, requestOptions)
-                .then((response) => response.json())
-                .then(() => {
-                    setPacotes(pacotes.filter((project) => project.id !== e.target.id))
-                    setMessage("Pacote removido com sucesso!")
+                .then((response) => {
+                    if(response.ok){
+                        setPacotes(pacotes.filter((project) => project.id !== e.target.id))
+                        setMessageType("success")
+                        setMessage("Pacote removido com sucesso!")    
+                    }else{
+                        setMessageType("error")
+                        setMessage("Não foi possível remover a passagem!")
+                    }
                 })
                 .catch(error => console.log('error', error));
         }
@@ -55,7 +61,7 @@ function Card({ checkToken, logado, setLogado }) {
 
     return (
         <>
-            {message && <Message type={"success"} msg={message} />}
+            {message && <Message type={messageType} msg={message} />}
             {pacotes.map((pacote) => (
                 <div className="projectCard" key={pacote.id}>
                     <h4>{pacote.nome}</h4>

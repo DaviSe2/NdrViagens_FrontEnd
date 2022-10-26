@@ -42,6 +42,7 @@
 }
 
 #novoRoteiro .main-btn.adicionarPacote{
+    margin-top: 5%;
     min-width: 200px;
 
 }
@@ -58,6 +59,10 @@
 
 #novoRoteiro .salvarBtn{
     margin-right: 10%;
+}
+
+#novoRoteiro .select{
+    margin-top: 5%;
 }
 
 .select label{
@@ -93,4 +98,53 @@
 
 #novoRoteiro .destinoBtn{
     min-width: 150px;
+}
+
+#novoRoteiro table{
+    width: 100%;
+    text-align: center;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+
+#novoRoteiro th{
+    width: 23%;
+    background-color: #852E7C;
+    border: 2px solid #000;
+    color: #FFF;
+}
+
+#novoRoteiro .thRemover{
+    width: 8%;
+}
+
+#novoRoteiro td{
+    border: 1px solid #000;
+    border-left: 2px solid #000;
+}
+
+#novoRoteiro p{
+    margin: 0;
+    text-align: right;
+    font-weight: bold;
+    font-size: medium;
+}
+
+#novoRoteiro p .precoOriginal{
+    text-decoration: line-through;
+}
+
+#novoRoteiro .promo{
+    font-size: larger;
+}
+
+#novoRoteiro .tdRemover{
+    transition: .5s;
+}
+
+#novoRoteiro .tdRemover:hover{
+    background-color: #444;
+    color: #FFF;
+    cursor: pointer;
 }
