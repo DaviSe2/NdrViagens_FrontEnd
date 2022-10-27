@@ -14,31 +14,31 @@ function App() {
 
   const [logado, setLogado] = useState(true)
 
-    function checkToken() {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  function checkToken() {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-        var urlencoded = new URLSearchParams();
-        urlencoded.append("token", token.access);
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("token", token.access);
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: urlencoded,
-            redirect: 'follow'
-        };
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'follow'
+    };
 
-        fetch("http://localhost:8080/oauth/check_token", requestOptions)
-            .then(response => {
-                if (response.ok) {
-                    setLogado(true)
-                } else {
-                  setLogado(false)
-                }
-            })
-            .catch(error => console.log('error', error));
+    fetch("http://localhost:8080/oauth/check_token", requestOptions)
+      .then(response => {
+        if (response.ok) {
+          setLogado(true)
+        } else {
+          setLogado(false)
+        }
+      })
+      .catch(error => console.log('error', error));
 
-    }
+  }
 
   return (
     <div className="App">
@@ -56,41 +56,41 @@ function App() {
           />
           <Route exact path="/GerenciarPassagens" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <GerenciarPassagens checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+              <GerenciarPassagens checkToken={checkToken} logado={logado} setLogado={setLogado} />
             </Suspense>}
           />
           <Route exact path="/GerenciarRoteiros" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <GerenciarRoteiros checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+              <GerenciarRoteiros checkToken={checkToken} logado={logado} setLogado={setLogado} />
             </Suspense>}
           />
           <Route exact path="/NovaPassagem" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado} />
             </Suspense>}
           />
           <Route exact path="/NovaPassagem/:id" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+              <NovaPassagem checkToken={checkToken} logado={logado} setLogado={setLogado} />
             </Suspense>}
           />
           <Route exact path="/NovoRoteiro" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+              <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado} />
             </Suspense>}
           />
           <Route exact path="/NovoRoteiro/:id" element=
             {<Suspense fallback={<p>"Carregando..."</p>}>
-              <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado}/>
+              <NovoRoteiro checkToken={checkToken} logado={logado} setLogado={setLogado} />
             </Suspense>}
           />
         </Routes>
+        <footer>
+          <Suspense fallback={<p>"Carregando..."</p>}>
+            <Copyright />
+          </Suspense>
+        </footer>
       </Router>
-      <footer>
-        <Suspense fallback={<p>"Carregando..."</p>}>
-          <Copyright />
-        </Suspense>
-      </footer>
     </div>
   );
 }

@@ -63,7 +63,7 @@ function PacoteCard({ checkToken, logado, setLogado }) {
         <>
             {message && <Message type={messageType} msg={message} />}
             {pacotes.map((pacote) => (
-                <div className="card" key={pacote.id}>
+                <div className="cardGerenciar" key={pacote.id}>
                     <h4>{pacote.nome}</h4>
                     <p><span>Destino: </span>{pacote.destino.cidade}</p>
                     <p><span>Hospedagem: </span>{pacote.hospedagem ? (<BsCheckLg />) : (<BsXLg />)}</p>

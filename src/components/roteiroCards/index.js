@@ -64,7 +64,7 @@ function RoteiroCard({checkToken, logado, setLogado}){
         <>
         {message && <Message type={messageType} msg={message} />}
             {roteiros.map((roteiro) => (
-                <div className="card roteiroCard" key={roteiro.id}>
+                <div className="cardGerenciar roteiroCard" key={roteiro.id}>
                     <h4>{roteiro.nomeRoteiro}</h4>
                     <p><span className="x-large">Total de Destinos: </span><span className="x-large">{roteiro.pacotes_viagens.length}</span></p>
                     <p><span className="large">De: </span><span className="precoOriginal">R$ {roteiro.precoTotal}</span></p>

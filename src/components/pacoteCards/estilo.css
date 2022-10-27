@@ -1,4 +1,4 @@
-.card{
+.cardGerenciar{
     padding: 1em;
     border: 1px solid #7a7a7a;
     border-radius: 20px;
@@ -7,7 +7,7 @@
     text-align: center;
 }
 
-.card h4{
+.cardGerenciar h4{
     background-color: #222;
     color: #FFF;
     font-weight: bold;
@@ -16,7 +16,7 @@
     border-radius: 15px;
 }
 
-.card p span{
+.cardGerenciar p span{
     font-weight: bold;
     display: block;
     text-transform: uppercase;

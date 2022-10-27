@@ -1,4 +1,4 @@
-import { useState,useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { BsFillTrashFill } from 'react-icons/bs'
 
@@ -6,7 +6,7 @@ import Token from "../../components/token"
 import Login from '../../components/login'
 
 import './estilo.css'
- 
+
 function NovoRoteiro({ checkToken, logado, setLogado }) {
 
     const { id } = useParams()
@@ -65,7 +65,7 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
                 })
                 .catch(error => console.log('error', error));
         }
-    },[checkToken, getEditarRoteiro, logado])
+    }, [checkToken, getEditarRoteiro, logado])
 
     function prepararPacote(e) {
         checkToken()
@@ -101,7 +101,6 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
 
     function removerPacote(pacote, index) {
         pacotes.splice(index, 1)
-        setRoteiro({ ...roteiro, "pacotes_viagens": pacotes })
         setPrecoTotal(precoTotal - pacote.preco)
         setPrecoPromoTotal(precoPromoTotal - pacote.precoPromo)
     }
@@ -117,29 +116,49 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
     function salvarRoteiro() {
         checkToken()
         if (logado) {
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", `Bearer ${Token.access}`);
-            myHeaders.append("Content-Type", "application/json");
+            let myHeaders = new Headers();
+            let raw;
+            let requestOptions;
+            if (id) {
+                myHeaders.append("Authorization", `Bearer ${Token.access}`);
+                myHeaders.append("Content-Type", "application/json");
+                raw = JSON.stringify({
+                    "id": id,
+                    "nomeRoteiro": roteiro,
+                    "pacotes_viagens": pacotes
+                });
+                requestOptions = {
+                    method: 'PATCH',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                }
+            } else {
+                myHeaders.append("Authorization", `Bearer ${Token.access}`);
+                myHeaders.append("Content-Type", "application/json");
+                raw = JSON.stringify({
+                    "nomeRoteiro": roteiro,
+                    "pacotes_viagens": pacotes
+                });
 
-            var raw = JSON.stringify({
-                "nomeRoteiro": roteiro,
-                "pacotes_viagens": pacotes
-            });
-
-            var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-            };
+                requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                }
+            }
 
             fetch("http://localhost:8080/roteiro", requestOptions)
-                .then(response => response.json())
-                .then(() => {
+            .then(response => response.json())
+            .then(() => {
+                if(id){
+                    navigate('/gerenciarRoteiros', { state: { message: 'Roteiro atualizado com sucesso!' } })
+                }else{
                     navigate('/gerenciarRoteiros', { state: { message: 'Roteiro criado com sucesso!' } })
-                    console.log(raw)
-                })
-                .catch(error => console.log('error', error));
+                }
+            })
+            .catch(error => console.log('error', error));
         }
     }
 
@@ -154,7 +173,7 @@ function NovoRoteiro({ checkToken, logado, setLogado }) {
                             <form onSubmit={submit}>
                                 <div className='col-md-12'>
                                     <label htmlFor='nome'>Nome:</label>
-                                    <input className='input' type={"text"} placeholder={"Nome do roteiro"} name={"nomeRoteiro"} onChange={handleChange} id={"nomeRoteiro"}/>
+                                    <input className='input' type={"text"} placeholder={"Nome do roteiro"} name={"nomeRoteiro"} onChange={handleChange} id={"nomeRoteiro"} />
                                 </div>
                                 <h3 className="main-title titlePacotes">Pacotes de Viagens</h3>
                                 {pacotes.length > 0 && (
